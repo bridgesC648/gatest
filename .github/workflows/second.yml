@@ -18,9 +18,10 @@ jobs:
 
       - name: Get latest tag
         run: |
+          echo "Hello world?"
           git tag --list
 
-      - name: Use run number in shell script
-        shell: pwsh
-        run: |
-          echo "https://whatever/3_23_1-$env:RUN_NUMBER/ShopFlex-$env:RUN_NUMBER.war"
+    #  - name: Use run number in shell script
+    #    shell: pwsh
+    #    run: |
+    #      echo "https://whatever/3_23_1-$env:RUN_NUMBER/ShopFlex-$env:RUN_NUMBER.war"
