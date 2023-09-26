@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Use Node.js 16
         uses: actions/setup-node@v2
@@ -18,10 +20,12 @@ jobs:
 
       - name: Get latest tag
         run: |
-          echo "Hello world?"
-          git tag --list
+          latestTag=$(git describe --tags | grep '^run-[0-9]\+')
+          runNumber=${latestTag#run-}
+          runNumber=${runNumber%%-*}
+          echo "RUN_NUMBER=$runNumber" >> $GITHUB_ENV
 
-    #  - name: Use run number in shell script
-    #    shell: pwsh
-    #    run: |
-    #      echo "https://whatever/3_23_1-$env:RUN_NUMBER/ShopFlex-$env:RUN_NUMBER.war"
+      - name: Use run number in shell script
+        shell: pwsh
+        run: |
+          echo "https://whatever/3_23_1-$env:RUN_NUMBER/ShopFlex-$env:RUN_NUMBER.war"
