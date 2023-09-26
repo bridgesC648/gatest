@@ -16,11 +16,11 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Get latest run number tag
+      - name: Get latest tag
         run: |
-          $latestTag = git describe --tags `| Select-String -Pattern "^run-\d+$" | % { $_.Matches[0].Value }
-          $runNumber = ($latestTag -replace 'run-','')
-          echo "RUN_NUMBER=$runNumber" >> $env:GITHUB_ENV
+          latestTag=$(git describe --tags | grep '^run-[0-9]\+$')
+          runNumber=${latestTag#run-}
+          echo "RUN_NUMBER=$runNumber" >> $GITHUB_ENV
 
       - name: Use run number in shell script
         shell: pwsh
