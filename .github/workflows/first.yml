@@ -9,13 +9,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 16
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
-
       - name: Create a tag with the run number
         run: |
+          git remote set-url origin https://${{ secrets.GA_PAT }}@github.com/bridgesC648/gatest.git
           git tag run-${{ github.run_number }}
           git push origin run-${{ github.run_number }}
         env:
