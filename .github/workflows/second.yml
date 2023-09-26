@@ -11,15 +11,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Download run number artifact
-        uses: actions/download-artifact@v2
+      - name: Use Node.js 16
+        uses: actions/setup-node@v2
         with:
-          name: run-number
-          path: ./
+          node-version: "16"
+
+      - name: Get latest run number tag
+        run: |
+          $latestTag = git describe --tags `| Select-String -Pattern "^run-\d+$" | % { $_.Matches[0].Value }
+          $runNumber = ($latestTag -replace 'run-','')
+          echo "RUN_NUMBER=$runNumber" >> $env:GITHUB_ENV
 
       - name: Use run number in shell script
         shell: pwsh
         run: |
-          $runNumber = Get-Content -Path .\run_number.txt
-
-          echo "https://whatever/3_23_1-$runNumber/ShopFlex-$runNumber.war"
+          echo "https://whatever/3_23_1-$env:RUN_NUMBER/ShopFlex-$env:RUN_NUMBER.war"
