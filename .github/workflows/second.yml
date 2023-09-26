@@ -19,12 +19,6 @@ jobs:
       - name: Get latest tag
         run: |
           git tag --list
-          latestTag=$(git describe --tags | grep '^run-[0-9]\+')
-          echo $latestTag
-          runNumber=${latestTag#run-}
-          echo $runNumber
-          runNumber=${runNumber%%-*}
-          echo "RUN_NUMBER=$runNumber" >> $GITHUB_ENV
 
       - name: Use run number in shell script
         shell: pwsh
