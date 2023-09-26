@@ -19,4 +19,4 @@ jobs:
           git tag run-${{ github.run_number }}
           git push origin run-${{ github.run_number }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GA_PAT }}
