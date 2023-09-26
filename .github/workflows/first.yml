@@ -1,0 +1,21 @@
+name: Save run number
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Chekcout code
+        uses: actions/checkout@v2
+
+      - name: Save workflow run number
+        run: echo "${{ github.run_number }}" > run_number.txt
+
+      - name: Upload run number as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: run-number
+          path: run_number.txt
